@@ -1,0 +1,29 @@
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore build outputs
+dist/
+build/
+out/
+
+# Ignore Java/Gradle
+.gradle/
+*.class
+*.jar
+*.war
+
+# Ignore environment files
+.env
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE settings
+.vscode/
+.idea/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.bak
