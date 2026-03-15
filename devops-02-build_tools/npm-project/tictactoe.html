@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic‑Tac‑Toe (p5.js)</title>
+
+    <!-- Load p5.js from node_modules -->
+    <script src="node_modules/p5/lib/p5.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Tic‑Tac‑Toe</h1>
+
+    <script>
+        let board = [
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ];
+
+        let currentPlayer = "X";
+        let gameOver = false;
+
+        function setup() {
+            createCanvas(300, 300);
+        }
+
+        function draw() {
+            background(30);
+
+            // Draw grid
+            stroke(255);
+            strokeWeight(4);
+            line(100, 0, 100, 300);
+            line(200, 0, 200, 300);
+            line(0, 100, 300, 100);
+            line(0, 200, 300, 200);
+
+            // Draw marks
+            textSize(64);
+            textAlign(CENTER, CENTER);
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    let x = c * 100 + 50;
+                    let y = r * 100 + 50;
+                    fill(255);
+                    text(board[r][c], x, y);
+                }
+            }
+        }
+
+        function mousePressed() {
+            if (gameOver) return;
+
+            let c = floor(mouseX / 100);
+            let r = floor(mouseY / 100);
+
+            if (r < 3 && c < 3 && board[r][c] === "") {
+                board[r][c] = currentPlayer;
+
+                if (checkWin(currentPlayer)) {
+                    alert(currentPlayer + " wins!");
+                    gameOver = true;
+                    return;
+                }
+
+                if (isDraw()) {
+                    alert("Draw!");
+                    gameOver = true;
+                    return;
+                }
+
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+            }
+        }
+
+        function checkWin(p) {
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] === p && board[i][1] === p && board[i][2] === p) return true;
+                if (board[0][i] === p && board[1][i] === p && board[2][i] === p) return true;
+            }
+            if (board[0][0] === p && board[1][1] === p && board[2][2] === p) return true;
+            if (board[0][2] === p && board[1][1] === p && board[2][0] === p) return true;
+            return false;
+        }
+
+        function isDraw() {
+            return board.flat().every(cell => cell !== "");
+        }
+    </script>
+
+</body>
+
+</html>
