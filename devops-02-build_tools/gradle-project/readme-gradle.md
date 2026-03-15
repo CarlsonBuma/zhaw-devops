@@ -4,6 +4,7 @@ Erstellung Gradle-Projekt zeigen, Verwendung .gitignore, Dependencies aus Vorles
 ## Gradle
 gradle init
 gradle run
+gradle build
 
 ## Initialisierung
 Application (Typ)
@@ -14,7 +15,7 @@ JUnit Jupiter (Test Framework)
 newAPIs: no
 
 ## Dependency 1 - Ascii Render
-implementation 'com.indvd00m.ascii.render:ascii-render'
+implementation 'com.indvd00m.ascii.render:ascii-render:2.2.0'
 
 ### Code
     IRender render = new Render();
