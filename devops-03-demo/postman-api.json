@@ -1,0 +1,124 @@
+{
+  "info": {
+    "name": "DevOpsDemo API",
+    "_postman_id": "devopsdemo-api-collection",
+    "description": "Postman collection for ToDo and Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Ping",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/services/ping"
+      }
+    },
+    {
+      "name": "Test",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/test"
+      }
+    },
+    {
+      "name": "ToDo",
+      "item": [
+        {
+          "name": "List ToDos",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/services/todo"
+          }
+        },
+        {
+          "name": "Get ToDo by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/services/todo/1"
+          }
+        },
+        {
+          "name": "Create ToDo",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Task\",\n  \"description\": \"Something important\"\n}"
+            },
+            "url": "http://localhost:8080/services/todo"
+          }
+        },
+        {
+          "name": "Update ToDo",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Task\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": "http://localhost:8080/services/todo/1"
+          }
+        },
+        {
+          "name": "Delete ToDo",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/services/todo/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/services/events"
+          }
+        },
+        {
+          "name": "Get Event by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/services/events/1"
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Event\",\n  \"date\": \"2025-06-01\",\n  \"location\": \"Zurich\",\n  \"description\": \"Event description\"\n}"
+            },
+            "url": "http://localhost:8080/services/events"
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Event\",\n  \"date\": \"2025-06-02\",\n  \"location\": \"Bern\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": "http://localhost:8080/services/events/1"
+          }
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/services/events/1"
+          }
+        }
+      ]
+    }
+  ]
+}
