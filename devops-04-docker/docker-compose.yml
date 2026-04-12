@@ -1,0 +1,230 @@
+###############################################
+# VECTOR DATABASE: PostgreSQL + pgvector
+###############################################
+
+# Start / Stop Stack
+#   docker-compose down
+#   docker-compose up -d
+#
+# Check running containers:
+#   docker ps
+
+# PostgreSQL Connection Details (from host machine):
+#   Host:     localhost
+#   Port:     5555
+#   Database: postgres
+#   Username: postgres
+#   Password: postgres
+#
+# PostgreSQL runs with pgvector extension support enabled (image: ankane/pgvector).
+
+# ------------------------------------------------
+# pgAdmin – Database Management UI
+# ------------------------------------------------
+# Access pgAdmin in browser:
+#   http://localhost:5050
+#
+# Default login:
+#   Email:    admin@admin.com
+#   Password: admin
+#
+# Create a new server connection in pgAdmin:
+#   General:
+#     Name: pgvector-local
+#
+#   Connection:
+#     Host name/address: pgvector
+#       (IMPORTANT: use service name, NOT localhost)
+#     Port: 5432
+#     Maintenance database: postgres
+#     Username: postgres
+#     Password: postgres
+#
+# Note:
+#   Because pgAdmin and PostgreSQL are on the same
+#   Docker network ("localnet"), service-name
+#   resolution works automatically.
+
+# ------------------------------------------------
+# Enable pgvector Extension (run once per database)
+# ------------------------------------------------
+# Open Query Tool in pgAdmin and run:
+#
+#   CREATE EXTENSION IF NOT EXISTS vector;
+#
+# Verify:
+#   \dx
+#
+# Example table for embeddings (1024 dims):
+#
+#   CREATE TABLE embeddings (
+#     id BIGSERIAL PRIMARY KEY,
+#     content TEXT,
+#     embedding VECTOR(1024)
+#   );
+
+###############################################
+# OLLAMA: Local LLM Runtime
+###############################################
+
+# Ollama API Endpoint (from host):
+#   http://localhost:11434
+#
+# Ollama API Endpoint (from containers):
+#   http://ollama:11434
+#
+# Installed models are persisted in Docker volume:
+#   ollama_models
+
+# ------------------------------------------------
+# Automatically Pulled Models (on first startup)
+# ------------------------------------------------
+# LLM:
+#   smollm:360m
+#
+# Embedding model:
+#   mxbai-embed-large
+#   → Embedding dimension: 1024
+#
+# Models are pulled by a one-time init container
+# ("ollama-init") and reused on all future restarts.
+
+# Verify available models:
+#   curl http://localhost:11434/api/tags
+#
+# Or from inside container:
+#   docker exec -it ollama_local ollama list
+
+# ------------------------------------------------
+# Ollama Container Shell Access
+# ------------------------------------------------
+# Enter shell:
+#   docker exec -it ollama_local /bin/sh
+#
+# Exit shell:
+#   exit
+
+###############################################
+# NETWORKING
+###############################################
+
+# All services run on the same Docker bridge network:
+#
+#   localnet
+#
+# Internal service DNS names:
+#   PostgreSQL → pgvector:5432
+#   pgAdmin    → pgadmin:80
+#   Ollama     → ollama:11434
+#
+# Containers can communicate using service names
+# without exposing additional ports.
+
+###############################################
+# DATA PERSISTENCE
+###############################################
+
+# Docker volumes used:
+#
+#   pgvector_data  → PostgreSQL data directory
+#   pgadmin_data   → pgAdmin configuration
+#   ollama_models  → LLM & embedding models
+#
+# Data and models persist across container restarts.
+
+###############################################
+# OPTIONAL TROUBLESHOOTING
+###############################################
+
+# View logs:
+#   docker logs pgvector_db
+#   docker logs pgadmin_ui
+#   docker logs ollama_local
+#   docker logs ollama_model_init
+#
+# Reset everything (WARNING: deletes data & models):
+#   docker-compose down -v
+#
+###############################################
+
+version: "3.9"
+
+services:
+  
+  # PostgreSQL with Vector Extension
+  pgvector:
+    image: ankane/pgvector:latest
+    container_name: pgvector_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5555:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+    networks:
+      - localnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin Database Management UI
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_ui
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - pgvector
+    networks:
+      - localnet
+
+  # Ollama - LLM Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_local
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - OLLAMA_LLM_MODELs:/root/.ollama
+    networks:
+      - localnet
+
+  
+  # Ollama model puller (runs once)
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: ollama_model_init
+    depends_on:
+      - ollama
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      sleep 10 &&
+      ollama pull smollm:360m &&
+      ollama pull mxbai-embed-large
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - localnet
+    restart: "no"
+
+volumes:
+  pgvector_data:
+  pgadmin_data:
+  ollama_models:
+
+networks:
+  localnet:
+    driver: bridge

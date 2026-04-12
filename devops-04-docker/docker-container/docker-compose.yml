@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:9.1.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "12345"
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - wordpress-network
+
+  wordpress:
+    image: wordpress:6.7.0-php8.3
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - "8083:80"   # 👈 anderer Host-Port!
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - wordpress-network
+
+volumes:
+  mysql-data:
+  wordpress-data:
+
+networks:
+  wordpress-network:
+    external: true

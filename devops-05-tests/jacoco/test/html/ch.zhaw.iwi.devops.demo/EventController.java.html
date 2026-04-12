@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EventController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">ch.zhaw.iwi.devops.demo</a> &gt; <span class="el_source">EventController.java</span></div><h1>EventController.java</h1><pre class="source lang-java linenums">package ch.zhaw.iwi.devops.demo;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@CrossOrigin
+@RestController
+<span class="fc" id="L23">public class EventController {</span>
+
+<span class="fc" id="L25">    private Map&lt;Integer, Event&gt; events = new HashMap&lt;&gt;();</span>
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void init() {
+<span class="fc" id="L29">        this.events.put(1, new Event(1, &quot;DevOps Workshop&quot;, &quot;2025-05-10&quot;, &quot;Zurich&quot;, &quot;Hands-on DevOps training&quot;));</span>
+<span class="fc" id="L30">        this.events.put(2, new Event(2, &quot;Sprint Review&quot;, &quot;2025-05-15&quot;, &quot;Online&quot;, &quot;Review of sprint progress&quot;));</span>
+<span class="fc" id="L31">        this.events.put(3, new Event(3, &quot;Team Lunch&quot;, &quot;2025-05-20&quot;, &quot;Cafeteria&quot;, &quot;Monthly team lunch&quot;));</span>
+<span class="fc" id="L32">        this.events.put(4, new Event(4, &quot;Container Demo&quot;, &quot;2026-04-20&quot;, &quot;Zurich&quot;, &quot;Image Update&quot;));</span>
+<span class="fc" id="L33">        System.out.println(&quot;Init Event Data&quot;);</span>
+<span class="fc" id="L34">    }</span>
+
+    // LIST for Path-Framework
+    @GetMapping(&quot;/services/events&quot;)
+    public List&lt;PathListEntry&lt;Integer&gt;&gt; listEvents() {
+<span class="fc" id="L39">        var result = new ArrayList&lt;PathListEntry&lt;Integer&gt;&gt;();</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (var event : this.events.values()) {</span>
+<span class="fc" id="L42">            var entry = new PathListEntry&lt;Integer&gt;();</span>
+<span class="fc" id="L43">            entry.setKey(event.getId(), &quot;eventKey&quot;);</span>
+<span class="fc" id="L44">            entry.setName(event.getName());</span>
+<span class="fc" id="L45">            entry.getDetails().add(event.getDate());</span>
+<span class="fc" id="L46">            entry.getDetails().add(event.getLocation());</span>
+<span class="fc" id="L47">            entry.setTooltip(event.getDescription());</span>
+<span class="fc" id="L48">            result.add(entry);</span>
+<span class="fc" id="L49">        }</span>
+
+<span class="fc" id="L51">        return result.stream()</span>
+<span class="fc" id="L52">                .sorted(Comparator.comparing(PathListEntry::getName))</span>
+<span class="fc" id="L53">                .toList();</span>
+    }
+
+    // GET single event
+    @GetMapping(&quot;/services/events/{key}&quot;)
+    public Event getEvent(@PathVariable(&quot;key&quot;) Integer key) {
+<span class="fc" id="L59">        return this.events.get(key);</span>
+    }
+
+    // CREATE
+    @PostMapping(&quot;/services/events&quot;)
+    public ResponseEntity&lt;String&gt; createEvent(@RequestBody Event event) {
+<span class="fc" id="L65">        var newId = this.events.keySet().stream().max(Comparator.naturalOrder()).orElse(0) + 1;</span>
+<span class="fc" id="L66">        event.setId(newId);</span>
+<span class="fc" id="L67">        this.events.put(newId, event);</span>
+
+<span class="fc" id="L69">        return ResponseEntity.ok(&quot;Event created successfully with ID: &quot; + newId);</span>
+    }
+
+    // UPDATE
+    @PutMapping(&quot;/services/events/{key}&quot;)
+    public ResponseEntity&lt;Event&gt; updateEvent(
+            @PathVariable(&quot;key&quot;) Integer key,
+            @RequestBody Event event) {
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (!this.events.containsKey(key)) {</span>
+<span class="fc" id="L79">            return ResponseEntity.notFound().build();</span>
+            // return ResponseEntity.badRequest().build();
+        }
+
+<span class="fc" id="L83">        event.setId(key);</span>
+<span class="fc" id="L84">        this.events.put(key, event);</span>
+
+<span class="fc" id="L86">        return ResponseEntity.ok(event);</span>
+    }
+
+    // DELETE
+    @DeleteMapping(&quot;/services/events/{key}&quot;)
+    public Event deleteEvent(@PathVariable(&quot;key&quot;) Integer key) {
+<span class="fc" id="L92">        return this.events.remove(key);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
