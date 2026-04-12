@@ -3,7 +3,7 @@ package ch.zhaw.iwi.devops.demo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathListEntry<KEYTYPE> {
+public class PathListEntry<K> {
 
 	private Key key;
 	private String name;
@@ -26,7 +26,7 @@ public class PathListEntry<KEYTYPE> {
 		return key;
 	}
 
-	public void setKey(KEYTYPE key, String name) {
+	public void setKey(K key, String name) {
 		this.key = new Key(key, name);
 	}
 
@@ -114,7 +114,7 @@ public class PathListEntry<KEYTYPE> {
 		if (form == null) {
 			return null;
 		}
-		return form.form;
+		return form.value;
 	}
 	
 	public void setForm(String form) {
@@ -122,22 +122,22 @@ public class PathListEntry<KEYTYPE> {
 			this.form = null;
 		} else {
 			this.form = new Form();
-			this.form.form = form;
+			this.form.value = form;
 		}
 	}
 
 	public class Key {
 
-		public Key(KEYTYPE key, String name) {
+		public Key(K key, String name) {
 			super();
 			this.key = key;
 			this.name = name;
 		}
 
-		private KEYTYPE key;
+		private K key;
 		private String name;
 
-		public KEYTYPE getKey() {
+		public K getKey() {
 			return key;
 		}
 
@@ -180,7 +180,7 @@ public class PathListEntry<KEYTYPE> {
 	}
 	
 	private class Form {
-		private String form;
+		private String value;
 	}
 
 	@Override

@@ -430,6 +430,179 @@
           "value": ""
         }
       ]
+    },
+    {
+      "id": "3140e181-a7b9-4578-a1af-e1824e8601fd",
+      "name": "Create Event",
+      "commands": [
+        {
+          "id": "62c366e1-a6f4-440f-8cfe-6f9672cc029e",
+          "command": "open",
+          "target": "/",
+          "value": ""
+        },
+        {
+          "command": "click",
+          "target": "css=.row:nth-child(3) .card-body:nth-child(1)",
+          "value": "",
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "201cabb0-9501-4772-a0b2-6ab1a997730a",
+          "targets": [
+            [
+              "css=.row:nth-child(3) .card-body:nth-child(1)",
+              "css:finder"
+            ],
+            [
+              "xpath=(//path-framework[@id='app']/path-application/div/div/div/div[3]/div/span/span/span/path-button-group/span/div/span/span/path-button/a/div)[1]",
+              "xpath:idRelative"
+            ]
+          ]
+        },
+        {
+          "command": "click",
+          "target": "css=.tile-green",
+          "value": "",
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "851d8dde-1008-4e6c-bf47-94a6aec2a1c3",
+          "targets": [
+            [
+              "css=.tile-green",
+              "css:finder"
+            ],
+            [
+              "xpath=(//path-framework[@id='app']/path-application/div/div/div/div/div/span[2]/span/span/path-button-group/span/div/span/span/path-button/a/div)[1]",
+              "xpath:idRelative"
+            ]
+          ]
+        },
+        {
+          "command": "type",
+          "target": "xpath=//span[normalize-space()='Event Name']/ancestor::path-form-field-label/following-sibling::div//input",
+          "value": "Selenium IDE Event",
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "faba4bfd-44d9-4413-8378-b7fa2d9c79ec",
+          "targets": [
+            [
+              "css=.ng-dirty:nth-child(1)",
+              "css:finder"
+            ],
+            [
+              "xpath=(//input[@type='text'])[3]",
+              "xpath:attributes"
+            ],
+            [
+              "xpath=(//div[@id='myModal']/div/path-form/div/form/div[2]/div/span/span/path-textfield/span/div/input)[1]",
+              "xpath:idRelative"
+            ]
+          ]
+        },
+        {
+          "command": "waitForElementVisible",
+          "target": "css=.fa-fw",
+          "value": "500",
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "69096145-0a57-4082-84cb-3a20b6e531d9",
+          "targets": [
+            [
+              "css=.fa-fw",
+              "css:finder"
+            ],
+            [
+              "xpath=(//div[@id='myModal']/div/path-form/div/form/div[2]/div[2]/span/span/path-datefield/span/div/div/div/button/i)[1]",
+              "xpath:idRelative"
+            ]
+          ]
+        },
+        {
+          "command": "type",
+          "target": "xpath=//span[normalize-space()='Date']/ancestor::path-form-field-label/following-sibling::div//input",
+          "value": "28.04.2026",
+          "id": "4fe52171-50cc-4a82-a8b1-9e23da5d6f66"
+        },
+        {
+          "command": "sendKeys",
+          "target": "xpath=//span[normalize-space()='Date']/ancestor::path-form-field-label/following-sibling::div//input",
+          "value": "${KEY_TAB}",
+          "id": "666940be-800c-479c-b1e0-9582f21f7995"
+        },
+        {
+          "command": "type",
+          "target": "xpath=//span[normalize-space()='Location']/ancestor::path-form-field-label/following-sibling::div//input",
+          "value": "Zurich",
+          "id": "3828ce87-be1d-4857-81c6-0660c0bda361"
+        },
+        {
+          "command": "type",
+          "target": "xpath=//span[normalize-space()='Description']/ancestor::path-form-field-label/following-sibling::div//textarea",
+          "value": "Created via Selenium IDE (E2E)",
+          "id": "a032d5f5-a0d2-40f6-895e-90996c14c57b"
+        },
+        {
+          "command": "waitForElementNotPresent",
+          "target": "xpath=//button[@type='submit' and @disabled]",
+          "value": "5000",
+          "id": "b2a3325b-156b-43a7-ab80-e3c26272a912",
+          "comment": "Wait for Button Submit"
+        },
+        {
+          "command": "waitForElementVisible",
+          "target": "xpath=//button[@type='submit' and .//span[normalize-space()='OK']]",
+          "value": "",
+          "id": "a00fdf49-bad1-4693-bda7-c8bb93a06a6c"
+        },
+        {
+          "command": "click",
+          "target": "xpath=//button[@type='submit' and .//span[normalize-space()='OK']]",
+          "value": "",
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "f8752772-40b3-43c6-aa42-82d26955d747",
+          "targets": [
+            [
+              "css=.btn:nth-child(3) > .path-default-font",
+              "css:finder"
+            ],
+            [
+              "xpath=(//div[@id='myModal']/div/path-form/div/form/div[3]/button[3]/span)[1]",
+              "xpath:idRelative"
+            ],
+            [
+              "xpath=//span[contains(.,'OK')]",
+              "xpath:innerText"
+            ]
+          ]
+        },
+        {
+          "command": "waitForElementNotPresent",
+          "target": "xpath=//div[contains(@class,'modal-content')]",
+          "value": "8000",
+          "id": "bd020de9-ecfa-4548-a7d6-921e1d114920",
+          "comment": "Wait until modal is closed after submit"
+        },
+        {
+          "command": "waitForElementVisible",
+          "target": "xpath=//div[contains(@class,'h4') and contains(@class,'truncate') and normalize-space()='Selenium IDE Event']",
+          "value": "5000",
+          "id": "b9ffa48b-2d7f-4396-9df7-dd688c0acdf5",
+          "comment": "Wait for creatiion"
+        },
+        {
+          "command": "assertElementPresent",
+          "target": "xpath=//div[contains(@class,'h4') and contains(@class,'truncate') and normalize-space()='Selenium IDE Event']",
+          "value": "",
+          "id": "b3522dcb-93eb-4149-a06d-e81f0663cb46",
+          "comment": "Check Event Creation"
+        }
+      ]
     }
   ],
   "suites": [
@@ -440,12 +613,15 @@
       "parallel": false,
       "timeout": 300,
       "tests": [
-        "8ee98c89-830f-4bba-9f7d-ecdf703b8ce5"
+        "8ee98c89-830f-4bba-9f7d-ecdf703b8ce5",
+        "3140e181-a7b9-4578-a1af-e1824e8601fd"
       ]
     }
   ],
   "urls": [
     "http://localhost:3000/"
   ],
-  "plugins": []
+  "plugins": [],
+  "timeout": 2000,
+  "delay": 200
 }

@@ -29,6 +29,7 @@ public class EventController {
         this.events.put(1, new Event(1, "DevOps Workshop", "2025-05-10", "Zurich", "Hands-on DevOps training"));
         this.events.put(2, new Event(2, "Sprint Review", "2025-05-15", "Online", "Review of sprint progress"));
         this.events.put(3, new Event(3, "Team Lunch", "2025-05-20", "Cafeteria", "Monthly team lunch"));
+        this.events.put(4, new Event(4, "Container Demo", "2026-04-20", "Zurich", "Image Update"));
         System.out.println("Init Event Data");
     }
 
@@ -60,12 +61,15 @@ public class EventController {
 
     // CREATE
     @PostMapping("/services/events")
-    public ResponseEntity<String> createEvent(@RequestBody Event event) {
-        var newId = this.events.keySet().stream().max(Comparator.naturalOrder()).orElse(0) + 1;
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        var newId = this.events.keySet().stream()
+                .max(Comparator.naturalOrder())
+                .orElse(0) + 1;
+
         event.setId(newId);
         this.events.put(newId, event);
 
-        return ResponseEntity.ok("Event created successfully with ID: " + newId);
+        return ResponseEntity.ok(event);
     }
 
     // UPDATE

@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class PathListEntryTest {
+class PathListEntryTest {
 
     @Test
-    public void testSettersAndGetters() {
+    void testSettersAndGetters() {
         PathListEntry<String> entry = new PathListEntry<>();
 
         // Test Key
@@ -65,7 +65,7 @@ public class PathListEntryTest {
     }
 
     @Test
-    public void testHashCodeAndEquals() {
+    void testHashCodeAndEquals() {
         PathListEntry<String> entry1 = new PathListEntry<>();
         PathListEntry<String> entry2 = new PathListEntry<>();
 
@@ -86,7 +86,7 @@ public class PathListEntryTest {
     }
 
     @Test
-    public void testKeyHashCodeAndEquals() {
+    void testKeyHashCodeAndEquals() {
         PathListEntry<String>.Key key1 = new PathListEntry<String>().new Key("key1", "name1");
         PathListEntry<String>.Key key2 = new PathListEntry<String>().new Key("key1", "name1");
         PathListEntry<String>.Key key3 = new PathListEntry<String>().new Key("key2", "name2");
@@ -101,14 +101,14 @@ public class PathListEntryTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         PathListEntry<String> entry = new PathListEntry<>();
         assertTrue(entry.isActive());
         assertNotNull(entry.getDetails());
     }
 
     @Test
-    public void testEqualsAndHashCodeWithNullValues() {
+    void testEqualsAndHashCodeWithNullValues() {
         PathListEntry<String> entry1 = new PathListEntry<>();
         PathListEntry<String> entry2 = new PathListEntry<>();
 
@@ -129,7 +129,7 @@ public class PathListEntryTest {
     }
 
     @Test
-    public void testEqualsAndHashCodeWithDifferentValues() {
+    void testEqualsAndHashCodeWithDifferentValues() {
         PathListEntry<String> entry1 = new PathListEntry<>();
         PathListEntry<String> entry2 = new PathListEntry<>();
 

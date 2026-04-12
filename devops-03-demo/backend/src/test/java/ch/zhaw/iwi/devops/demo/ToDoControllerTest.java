@@ -7,10 +7,10 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-public class ToDoControllerTest {
+class ToDoControllerTest {
     
     @Test
-    public void testCreate() {
+    void testCreate() {
         var controller = new ToDoController();
         var todo = new ToDo(1, "t", "d");
         controller.createTodo(1, todo);
@@ -22,14 +22,14 @@ public class ToDoControllerTest {
     }
 
     @Test
-    public void testTest() {
+    void testTest() {
         var controller = new ToDoController();
         var result = controller.test();
         assertTrue(result.contains("running"));
     }
 
     @Test
-    public void testPing() {
+    void testPing() {
         var controller = new ToDoController();
         var result = controller.ping();
         assertTrue(result.startsWith("{"));
@@ -37,7 +37,7 @@ public class ToDoControllerTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         var controller = new ToDoController();
         var todo = mock(ToDo.class);
         when(todo.getId()).thenReturn(1);
