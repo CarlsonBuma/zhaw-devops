@@ -8,6 +8,11 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 
 class ToDoControllerTest {
+
+    @Test
+    void mainRuns() {
+        DemoApplication.main(new String[]{});
+    }
     
     @Test
     void testCreate() {
@@ -48,5 +53,4 @@ class ToDoControllerTest {
         controller.deleteTodo(1);
         assertEquals(0, controller.count());
     }
-
 }

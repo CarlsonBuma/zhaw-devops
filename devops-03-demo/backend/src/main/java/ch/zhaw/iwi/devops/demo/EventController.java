@@ -79,9 +79,9 @@ public class EventController {
             @RequestBody Event event) {
 
         if (!this.events.containsKey(key)) {
-            return ResponseEntity.internalServerError().build();    // Testing Error
+            // return ResponseEntity.internalServerError().build();    // Testing Error
 
-            // return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
 
         event.setId(key);

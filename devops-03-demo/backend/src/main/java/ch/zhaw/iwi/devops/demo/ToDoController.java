@@ -84,6 +84,4 @@ public class ToDoController {
     public ToDo deleteTodo(@PathVariable("key") Integer key) {
         return this.todos.remove(key);
     }
-
-
 }
