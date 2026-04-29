@@ -8,8 +8,8 @@ out/
 
 # Ignore Java/Gradle
 .gradle/
+!gradle/wrapper/gradle-wrapper.jar
 *.class
-*.jar
 *.war
 
 # Ignore environment files
