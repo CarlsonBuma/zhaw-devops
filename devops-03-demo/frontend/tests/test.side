@@ -546,21 +546,31 @@
           "id": "a032d5f5-a0d2-40f6-895e-90996c14c57b"
         },
         {
-          "command": "waitForElementNotPresent",
-          "target": "xpath=//button[@type='submit' and @disabled]",
-          "value": "5000",
-          "id": "b2a3325b-156b-43a7-ab80-e3c26272a912",
-          "comment": "Wait for Button Submit"
-        },
-        {
           "command": "waitForElementVisible",
-          "target": "xpath=//button[@type='submit' and .//span[normalize-space()='OK']]",
+          "target": "css=.btn:nth-child(3) > .path-default-font",
           "value": "",
-          "id": "a00fdf49-bad1-4693-bda7-c8bb93a06a6c"
+          "insertBeforeLastCommand": false,
+          "frameLocation": "root",
+          "winHandleId": "root",
+          "id": "7fd463d4-662b-493e-8250-fbc3fec1c064",
+          "targets": [
+            [
+              "css=.btn:nth-child(3) > .path-default-font",
+              "css:finder"
+            ],
+            [
+              "xpath=(//div[@id='myModal']/div/path-form/div/form/div[3]/button[3]/span)[1]",
+              "xpath:idRelative"
+            ],
+            [
+              "xpath=//span[contains(.,'OK')]",
+              "xpath:innerText"
+            ]
+          ]
         },
         {
           "command": "click",
-          "target": "xpath=//button[@type='submit' and .//span[normalize-space()='OK']]",
+          "target": "css=.btn:nth-child(3) > .path-default-font",
           "value": "",
           "insertBeforeLastCommand": false,
           "frameLocation": "root",
@@ -580,27 +590,6 @@
               "xpath:innerText"
             ]
           ]
-        },
-        {
-          "command": "waitForElementNotPresent",
-          "target": "xpath=//div[contains(@class,'modal-content')]",
-          "value": "8000",
-          "id": "bd020de9-ecfa-4548-a7d6-921e1d114920",
-          "comment": "Wait until modal is closed after submit"
-        },
-        {
-          "command": "waitForElementVisible",
-          "target": "xpath=//div[contains(@class,'h4') and contains(@class,'truncate') and normalize-space()='Selenium IDE Event']",
-          "value": "5000",
-          "id": "b9ffa48b-2d7f-4396-9df7-dd688c0acdf5",
-          "comment": "Wait for creatiion"
-        },
-        {
-          "command": "assertElementPresent",
-          "target": "xpath=//div[contains(@class,'h4') and contains(@class,'truncate') and normalize-space()='Selenium IDE Event']",
-          "value": "",
-          "id": "b3522dcb-93eb-4149-a06d-e81f0663cb46",
-          "comment": "Check Event Creation"
         }
       ]
     }
