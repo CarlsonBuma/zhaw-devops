@@ -7,33 +7,36 @@ pipeline {
         stage('Checkout') { 
             steps {
                 sh 'echo checkout'
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub-mosazhaw', url: 'https://github.com/devopszhaw/DevOpsDemo']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[
+                    // credentialsId: 'GitHub-mosazhaw', 
+                    url: 'https://github.com/CarlsonBuma/zhaw-devops.git'
+                ]])
             }
         }
         stage('Build') { 
             steps {
                 sh 'echo build'
-                dir('backend') {
+                dir('devops-03-demo/backend') {
                     sh 'chmod +x ./gradlew'
                     sh './gradlew test'    
                 }
                 recordCoverage(tools: [[parser: 'JACOCO',pattern: '**/jacocoTestReport.xml']])
                 junit stdioRetention: '', testResults: '**/test-results/test/*.xml'
                 nodejs('24.11.1') {
-                    dir('frontend') {
+                    dir('devops-03-demo/frontend') {
                         sh 'npm install'
                         sh 'npm run lint:html'                    
                     }
                 }
-                withCredentials([string(credentialsId: 'Sonarqube-Backend', variable: 'TOKEN')]) {
-                    dir('backend') {
-                        sh './gradlew sonar -Dsonar.projectKey=DevOpsDemo-Backend -Dsonar.projectName=\'DevOpsDemo-Backend\' -Dsonar.host.url=http://sonarqube:9000 -Dsonar.token=$TOKEN'    
+                withCredentials([string(credentialsId: '28a9f636-a2c0-4ac7-a0d0-589d35361d65', variable: 'TOKEN')]) {
+                    dir('devops-03-demo/backend') {
+                        sh './gradlew sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=\'devops-backend\' -Dsonar.host.url=http://sonarqube:9000 -Dsonar.token=$TOKEN'    
                     }                    
                 }
-                withCredentials([string(credentialsId: 'Sonarqube-Frontend', variable: 'TOKEN')]) {
-                    dir('frontend') {
+                withCredentials([string(credentialsId: '198176b2-203f-4909-a3b0-6f05c6198970', variable: 'TOKEN')]) {
+                    dir('devops-03-demo/frontend') {
                         nodejs('24.11.1') {
-                            sh 'npx sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=DevOpsDemo-Frontend -Dsonar.projectName=\'DevOpsDemo-Frontend\' -Dsonar.token=$TOKEN'    
+                            sh 'npx sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=devops-frontend -Dsonar.projectName=\'devops-frontend\' -Dsonar.token=$TOKEN'    
                         }
                     }                    
                 }
