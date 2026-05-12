@@ -30,7 +30,7 @@ pipeline {
                     ]]
                 )
                 junit stdioRetention: '', testResults: 'devops-03-demo/backend/build/test-results/test/*.xml'
-                nodejs('24.11.1') {
+                nodejs('Node 24.11.1') {
                     dir('devops-03-demo/frontend') {
                         sh 'npm install'
                         sh 'npm run lint:html'                    
@@ -43,7 +43,7 @@ pipeline {
                 }
                 withCredentials([string(credentialsId: '198176b2-203f-4909-a3b0-6f05c6198970', variable: 'TOKEN')]) {
                     dir('devops-03-demo/frontend') {
-                        nodejs('24.11.1') {
+                        nodejs('Node 24.11.1') {
                             sh 'npx sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=devops-frontend -Dsonar.projectName=\'devops-frontend\' -Dsonar.token=$TOKEN'    
                         }
                     }                    
