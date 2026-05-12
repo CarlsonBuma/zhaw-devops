@@ -1,7 +1,7 @@
 services:
   devopsdemo:
     build: .
-    image: mosazhaw/devopsdemo
+    image: carlson/devopsdemo
     container_name: devopsdemo
     ports:
       - "8088:8080"

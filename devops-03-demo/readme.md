@@ -20,6 +20,10 @@ SonarQube analyzes source code quality.
  - Connect via Brwoser :9000
  - Run Test via PS:
 
+
+#### SonarPasswort
+Admin1234567.
+
 ### Backend
 .\gradlew --% sonar -Dsonar.projectKey=devops-demo -Dsonar.projectName=devops-demo -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_959b8ab18bbbd67faca36a363427a6cef07bd556
 
