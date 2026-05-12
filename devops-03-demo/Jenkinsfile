@@ -20,8 +20,16 @@ pipeline {
                     sh 'chmod +x ./gradlew'
                     sh './gradlew test'    
                 }
-                recordCoverage(tools: [[parser: 'JACOCO',pattern: '**/jacocoTestReport.xml']])
-                junit stdioRetention: '', testResults: '**/test-results/test/*.xml'
+                recordCoverage(
+                    tools: [[
+                        parser: 'JACOCO',
+                        pattern: 'devops-03-demo/backend/build/reports/jacoco/test/jacocoTestReport.xml'
+                    ]],
+                    sourceDirectories: [[
+                        path: 'devops-03-demo/backend/src/main/java'
+                    ]]
+                )
+                junit stdioRetention: '', testResults: 'devops-03-demo/backend/build/test-results/test/*.xml'
                 nodejs('24.11.1') {
                     dir('devops-03-demo/frontend') {
                         sh 'npm install'
