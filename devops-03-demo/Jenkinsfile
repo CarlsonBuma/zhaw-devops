@@ -34,7 +34,7 @@ pipeline {
                     dir('devops-03-demo/frontend') {
                         sh 'npm install'
                         sh 'npm run lint:html'
-                        sh 'npm run test-local-chrome'                    
+                        sh 'npm run test-jenkins-chrome'                    
                     }
                 }
                 withCredentials([string(credentialsId: 'sonar-secret-backend', variable: 'TOKEN')]) {
