@@ -36,12 +36,12 @@ pipeline {
                         sh 'npm run lint:html'                    
                     }
                 }
-                withCredentials([string(credentialsId: '28a9f636-a2c0-4ac7-a0d0-589d35361d65', variable: 'TOKEN')]) {
+                withCredentials([string(credentialsId: 'sonar-secret-backend', variable: 'TOKEN')]) {
                     dir('devops-03-demo/backend') {
                         sh './gradlew sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=\'devops-backend\' -Dsonar.host.url=http://sonarqube:9000 -Dsonar.token=$TOKEN'    
                     }                    
                 }
-                withCredentials([string(credentialsId: '198176b2-203f-4909-a3b0-6f05c6198970', variable: 'TOKEN')]) {
+                withCredentials([string(credentialsId: 'sonar-secret-frontend', variable: 'TOKEN')]) {
                     dir('devops-03-demo/frontend') {
                         nodejs('Node 24.11.1') {
                             sh 'npx sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=devops-frontend -Dsonar.projectName=\'devops-frontend\' -Dsonar.token=$TOKEN'    
