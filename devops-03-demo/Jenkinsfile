@@ -45,8 +45,9 @@ pipeline {
         stage('Docker') {
             steps {
                 sh '''
+                    cd devops-03-demo
                     export DOCKER_HOST=tcp://host.docker.internal:2375
-                    docker build -t mosazhaw/devopsdemo .
+                    docker build -t carlson/devopsdemo .
                 '''
             }
         }
