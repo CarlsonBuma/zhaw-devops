@@ -53,28 +53,24 @@ pipeline {
         stage('Docker-Build-Image') {
             steps {
                 sh '''
-                    cd devops-03-demo
                     export DOCKER_HOST=tcp://host.docker.internal:2375
+                    cd devops-03-demo
                     docker build -t carlsonpatrick/devops-demo-app .
                 '''
             }
         }
-        stage('Docker-Create-Container') {
+        stage('Docker-Run-Container') {
             steps {
                 sh '''
                     export DOCKER_HOST=tcp://host.docker.internal:2375
 
-                    # Remove existing container if it exists
-                    docker rm -f devops-demo-app || true
+                    docker rm -f devops-demo-backend || true
 
-                    # Create new container
-                    docker create \
-                        --name demo-app-container \
-                        -p 3001:3000 \
+                    docker run -d \
+                        --name devops-demo-backend \
+                        -p 8080:8080 \
+                        --restart unless-stopped \
                         carlsonpatrick/devops-demo-app
-
-                    # Start container
-                    docker start demo-app-container
                 '''
             }
         }
