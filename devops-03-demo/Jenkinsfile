@@ -64,16 +64,40 @@ pipeline {
                 sh '''
                     export DOCKER_HOST=tcp://host.docker.internal:2375
 
-                    docker rm -f devops-demo-backend || true
+                    docker rm -f devops-docker-demo-app || true
 
                     docker run -d \
-                        --name devops-demo-backend \
+                        --name devops-docker-demo-app \
                         -p 8080:8080 \
                         --restart unless-stopped \
                         carlsonpatrick/devops-demo-app
                 '''
             }
         }
+
+        stage('Docker Push') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'devops-ammanpa4', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh '''
+                            export DOCKER_HOST=tcp://host.docker.internal:2375
+                            docker login -u $USERNAME -p $PASSWORD
+                            docker push carlsonpatrick/devops-demo-app
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Trigger Render Deployment') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'render-deploy-key', variable: 'KEY')]) {
+                        sh "curl https://api.render.com/deploy/$KEY"
+                    }
+                }
+            }
+        } 
     }
 }
 
