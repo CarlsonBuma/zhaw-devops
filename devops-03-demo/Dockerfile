@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 # Copy only needed parts first (better caching)
-COPY devops-03-demo/frontend ./frontend
-COPY devops-03-demo/backend ./backend
+COPY frontend ./frontend
+COPY backend ./backend
 
 # ---- FRONTEND BUILD ----
 RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm \
