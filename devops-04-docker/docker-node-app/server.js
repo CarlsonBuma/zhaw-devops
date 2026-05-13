@@ -9,7 +9,7 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Nodeapp by Carlson Patrick! Automatated Commit Build!');
+  res.send('Nodeapp by Carlson Patrick! Automatated Commit Build! -->');
 });
 
 app.listen(PORT, HOST);
