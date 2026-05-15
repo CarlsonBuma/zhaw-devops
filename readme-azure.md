@@ -21,5 +21,5 @@ az group create --name devops-demo-container --location westeurope
 
 az appservice plan create --name devops-demo-container-plan --resource-group devops-demo-container --sku F1 --is-linux --location westeurope
 
-az webapp create --resource-group devops-demo-container --plan devops-demo-container-plan --name devops-demo-app-container --container-image carlsonpatrick/devops-demo-app
+az webapp create --resource-group devops-demo-container --plan devops-demo-container-plan --name devops-demo-app-container --container-image carlsonpatrick/devops-demo-app:v1
 
